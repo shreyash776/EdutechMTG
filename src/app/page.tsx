@@ -1,103 +1,108 @@
-import Image from "next/image";
+"use client";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import {
+  setActiveSubject,
+  setClass,
+  setUnit,
+  toggleNotStarted,
+  toggleWeakChapters,
+} from "@/store/chaptersSlice";
+import Sidebar from "@/components/Sidebar";
+import TopNav from "@/components/TopNav";
+import SubjectTabs from "@/components/SubjectTabs";
+import FilterBar from "@/components/FilterBar";
+import SortBar from "@/components/SortBar";
+import ChapterList from "@/components/ChapterList";
+import DarkModeToggle from "@/components/DarkModeToggle";
+import { Atom, Flask, MathOperations } from "phosphor-react";
 
-export default function Home() {
+const subjects = ["Physics", "Chemistry", "Mathematics"] as const;
+type Subject = typeof subjects[number];
+
+const subjectMeta: Record<Subject, { icon: JSX.Element; bg: string }> = {
+  Physics: {
+    icon: <Atom size={20} weight="bold" className="text-white" />,
+    bg: "bg-[#fe7f1b]",
+  },
+  Chemistry: {
+    icon: <Flask size={20} weight="bold" className="text-white" />,
+    bg: "bg-[#37b24d]",
+  },
+  Mathematics: {
+    icon: <MathOperations size={20} weight="bold" className="text-white" />,
+    bg: "bg-[#0086ff]",
+  },
+};
+
+export default function HomePage() {
+  const dispatch = useDispatch();
+  const {
+    activeSubject,
+    selectedClass,
+    selectedUnit,
+    notStarted,
+    weakChapters,
+    chapters,
+  } = useSelector((state: RootState) => state.chapters);
+  const [sortAsc, setSortAsc] = React.useState(true);
+
+  // Filtering logic
+  let filteredChapters = chapters.filter((ch) => ch.subject === activeSubject);
+  if (selectedClass) filteredChapters = filteredChapters.filter((ch) => ch.class === selectedClass);
+  if (selectedUnit) filteredChapters = filteredChapters.filter((ch) => ch.unit === selectedUnit);
+  if (notStarted) filteredChapters = filteredChapters.filter((ch) => ch.status === "Not Started");
+  if (weakChapters) filteredChapters = filteredChapters.filter((ch) => ch.isWeakChapter);
+
+  filteredChapters = filteredChapters.sort((a, b) =>
+    sortAsc ? a.chapter.localeCompare(b.chapter) : b.chapter.localeCompare(a.chapter)
+  );
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-white dark:bg-neutral-950 flex justify-center">
+      <div className="flex w-full max-w-[1120px]">
+        <div className="hidden md:block w-[272px]">
+          <Sidebar
+            active={activeSubject}
+            setActive={(subj) => dispatch(setActiveSubject(subj))}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <main className="flex-1 w-full md:w-[848px] mx-auto flex flex-col min-h-screen md:border-l md:border-r border-neutral-200 dark:border-neutral-800 px-0 md:px-4">
+         
+          <div className="md:hidden">
+            <TopNav />
+            <SubjectTabs
+              active={activeSubject}
+              setActive={(subj) => dispatch(setActiveSubject(subj))}
+            />
+          </div>
+          
+          <div className="hidden md:flex items-center justify-center relative mt-8 mb-2">
+            <div className="flex items-center gap-3">
+              <span className={`${subjectMeta[activeSubject].bg} rounded-xl flex items-center justify-center w-8 h-8`}>
+                {subjectMeta[activeSubject].icon}
+              </span>
+              <h1 className="text-2xl font-bold">{activeSubject} PYQs</h1>
+            </div>
+            <div className="absolute right-0">
+              <DarkModeToggle />
+            </div>
+          </div>
+          <div className="text-center mt-2 mb-4 text-neutral-500 hidden md:block">
+            Chapter-wise collection of {activeSubject.toLowerCase()} pyqs
+          </div>
+          <div className="px-2 md:px-0">
+            <FilterBar
+             
+            />
+            <SortBar count={filteredChapters.length} onSort={() => setSortAsc((s) => !s)} />
+          </div>
+          <div className="px-2 md:px-0">
+            <ChapterList chapters={filteredChapters} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

@@ -51,24 +51,19 @@ export default function Sidebar({ active, setActive }: SidebarProps) {
                   ? "bg-[#1D2933] text-white"
                   : "hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-900 dark:text-white"
                 }
-                font-inter font-normal text-base leading-6 w-full
+                font-inter font-normal text-base leading-6
+                w-auto md:w-full
               `}
             >
-              {/* Icon circle */}
+              {/* Icon with colored background */}
               <span className={`${s.bg} rounded-xl flex items-center justify-center w-8 h-8`}>
                 {s.icon}
               </span>
-
-              {/* Label wrapper */}
-              <div className="flex-1 flex justify-center md:justify-start items-center">
-                {/* Mobile: Short name */}
-                <span className="block md:hidden text-xs font-semibold pt-1">{s.short}</span>
-
-                {/* Desktop: Full label */}
-                <span className="hidden md:block">{s.key} PYQs</span>
-              </div>
-
-              {/* Arrow only on desktop */}
+              {/* Mobile: short label below icon */}
+              <span className="block md:hidden text-xs font-semibold pt-1">{s.short}</span>
+              {/* Desktop: full label right of icon */}
+              <span className="hidden md:block">{s.key} PYQs</span>
+              {/* Desktop: arrow */}
               <span className="hidden md:block ml-auto">
                 <CaretRight
                   size={20}

@@ -57,7 +57,7 @@ const handleOpenUnit = (e: React.MouseEvent) => {
   }
 };
 
-// Scroll right when arrow is clicked (mobile only)
+
 const handleScrollRight = () => {
   if (scrollRef.current) {
     scrollRef.current.scrollBy({ left: 120, behavior: "smooth" });
@@ -214,7 +214,7 @@ const filterTextStyle = {
         </div>
 
 
-        {/* Not Started filter */}
+   
         <button
           className={`px-4 py-2 rounded-lg border whitespace-nowrap transition flex-shrink-0
             ${notStarted
@@ -227,7 +227,7 @@ const filterTextStyle = {
           Not Started
         </button>
 
-        {/* Weak Chapters filter */}
+        
         <button
           className={`px-4 py-2 rounded-lg border whitespace-nowrap transition flex-shrink-0
             ${weakChapters
@@ -241,9 +241,9 @@ const filterTextStyle = {
         </button>
       </div>
 
-      {/* Mobile right arrow for scrolling */}
+     
       <button
-        className="sm:hidden absolute right-0 top-1/2 -translate-y-1/2 z-30 py-2 px-1 "
+        className="sm:hidden absolute right-[-2] top-1/2 -translate-y-1/2 z-30 py-2 px-1 rounded-l-sm "
         style={{
           background: "rgba(255,255,255,0.7)",
           backdropFilter: "blur(4px)",
@@ -252,7 +252,7 @@ const filterTextStyle = {
         aria-label="Scroll filters right"
         onClick={handleScrollRight}
       >
-        <CaretRight size={24} className="text-neutral-400" />
+        <CaretRight size={24} className="text-black" />
       </button>
 
       {/* Hide scrollbar visually */}

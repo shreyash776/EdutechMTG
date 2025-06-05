@@ -62,21 +62,21 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white dark:bg-neutral-950 flex justify-center">
       <div className="flex w-full max-w-[1120px]">
-        <div className="hidden md:block w-[272px]">
-          <Sidebar
-            active={activeSubject}
-            setActive={(subj) => dispatch(setActiveSubject(subj))}
-          />
-        </div>
+   <div className="hidden md:block w-[272px]">
+  <Sidebar
+    active={activeSubject}
+    setActive={(subj) => dispatch(setActiveSubject(subj))}
+  />
+</div>
         <main className="flex-1 w-full md:w-[848px] mx-auto flex flex-col min-h-screen md:border-l md:border-r border-neutral-200 dark:border-neutral-800 px-0 md:px-4">
          
           <div className="md:hidden">
-            <TopNav />
-            <SubjectTabs
-              active={activeSubject}
-              setActive={(subj) => dispatch(setActiveSubject(subj))}
-            />
-          </div>
+    <TopNav />
+    <SubjectTabs
+      active={activeSubject}
+      setActive={(subj) => dispatch(setActiveSubject(subj))}
+    />
+  </div>
           
           <div className="hidden md:flex items-center justify-center relative mt-8 mb-2">
             <div className="flex items-center gap-3">

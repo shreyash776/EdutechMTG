@@ -80,8 +80,8 @@ export default function HomePage() {
           
           <div className="hidden md:flex items-center justify-center relative mt-8 mb-2">
             <div className="flex items-center gap-3">
-              <span className={`${subjectMeta[activeSubject].bg} rounded-xl flex items-center justify-center w-8 h-8`}>
-                {subjectMeta[activeSubject].icon}
+              <span className={`${subjectMeta[activeSubject as Subject].bg} rounded-xl flex items-center justify-center w-8 h-8`}>
+                {subjectMeta[activeSubject as Subject].icon}
               </span>
               <h1 className="text-2xl font-bold">{activeSubject} PYQs</h1>
             </div>

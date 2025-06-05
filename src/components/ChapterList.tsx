@@ -4,7 +4,7 @@ import ChapterCard from "./ChapterCard";
 type Chapter = {
   chapter: string;
   subject: string;
-  yearWiseQuestionCount: number;
+  yearWiseQuestionCount: Record<string, number>; 
   questionSolved: number;
 };
 

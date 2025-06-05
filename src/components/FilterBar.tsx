@@ -5,6 +5,7 @@ import { RootState } from "@/store";
 import { setClass, setUnit, toggleNotStarted, toggleWeakChapters } from "@/store/chaptersSlice";
 import { useState, useRef } from "react";
 import Portal from "@/components/Portal";
+  import { useEffect } from "react";
 
 export default function FilterBar() {
   const dispatch = useDispatch();
@@ -33,56 +34,55 @@ export default function FilterBar() {
   const classBtnRef = useRef<HTMLButtonElement>(null);
   const unitBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Ref for the scrollable container
-  const scrollRef = useRef<HTMLDivElement>(null);
+// Ref for the scrollable container
+const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenClass = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setOpenClass((o) => !o);
-    setOpenUnit(false);
-    if (classBtnRef.current) {
-      const rect = classBtnRef.current.getBoundingClientRect();
-      setClassDropdownPos({ left: rect.left, top: rect.bottom + window.scrollY, width: rect.width });
-    }
-  };
+const handleOpenClass = (e: React.MouseEvent) => {
+  e.stopPropagation();
+  setOpenClass((o) => !o);
+  setOpenUnit(false);
+  if (classBtnRef.current) {
+    const rect = classBtnRef.current.getBoundingClientRect();
+    setClassDropdownPos({ left: rect.left, top: rect.bottom + window.scrollY, width: rect.width });
+  }
+};
 
-  const handleOpenUnit = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setOpenUnit((o) => !o);
+const handleOpenUnit = (e: React.MouseEvent) => {
+  e.stopPropagation();
+  setOpenUnit((o) => !o);
+  setOpenClass(false);
+  if (unitBtnRef.current) {
+    const rect = unitBtnRef.current.getBoundingClientRect();
+    setUnitDropdownPos({ left: rect.left, top: rect.bottom + window.scrollY, width: rect.width });
+  }
+};
+
+// Scroll right when arrow is clicked (mobile only)
+const handleScrollRight = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: 120, behavior: "smooth" });
+  }
+};
+
+useEffect(() => {
+  function handleClick() {
     setOpenClass(false);
-    if (unitBtnRef.current) {
-      const rect = unitBtnRef.current.getBoundingClientRect();
-      setUnitDropdownPos({ left: rect.left, top: rect.bottom + window.scrollY, width: rect.width });
-    }
-  };
+    setOpenUnit(false);
+  }
+  if (openClass || openUnit) {
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }
+}, [openClass, openUnit]);
 
-  // Close dropdowns on outside click
-  useState(() => {
-    function handleClick() {
-      setOpenClass(false);
-      setOpenUnit(false);
-    }
-    if (openClass || openUnit) {
-      window.addEventListener("click", handleClick);
-      return () => window.removeEventListener("click", handleClick);
-    }
-  }, [openClass, openUnit]);
-
-  // Design token style
-  const filterTextStyle = {
-    fontFamily: "Inter, sans-serif",
-    fontWeight: "var(--font-label-base-font_weight, 400)",
-    fontSize: "var(--font-label-md-font_size, 14px)",
-    lineHeight: "var(--font-label-md-line_height, 22px)",
-    letterSpacing: "0%",
-  };
-
-  // Scroll right when arrow is clicked (mobile only)
-  const handleScrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 120, behavior: "smooth" });
-    }
-  };
+// Design token style
+const filterTextStyle = {
+  fontFamily: "Inter, sans-serif",
+  fontWeight: "var(--font-label-base-font_weight, 400)",
+  fontSize: "var(--font-label-md-font_size, 14px)",
+  lineHeight: "var(--font-label-md-line_height, 22px)",
+  letterSpacing: "0%",
+};
 
   return (
     <div className="relative">

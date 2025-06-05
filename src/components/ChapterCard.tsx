@@ -1,3 +1,4 @@
+import React from "react";
 import { Atom, Flask, Function } from "phosphor-react";
 
 interface Chapter {
@@ -7,7 +8,7 @@ interface Chapter {
   questionSolved: number;
 }
 
-const subjectIcons: Record<string, JSX.Element> = {
+const subjectIcons: Record<string, React.ReactElement> = {
   physics: <Atom size={22} weight="bold" className="text-[#fe7f1b]" />,
   chemistry: <Flask size={22} weight="bold" className="text-[#37b24d]" />,
   mathematics: <Function size={22} weight="bold" className="text-[#0086ff]" />,

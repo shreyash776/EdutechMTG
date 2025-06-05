@@ -21,7 +21,7 @@ import { Atom, Flask, MathOperations } from "phosphor-react";
 const subjects = ["Physics", "Chemistry", "Mathematics"] as const;
 type Subject = typeof subjects[number];
 
-const subjectMeta: Record<Subject, { icon: JSX.Element; bg: string }> = {
+const subjectMeta: Record<Subject, { icon: React.ReactElement; bg: string }> = {
   Physics: {
     icon: <Atom size={20} weight="bold" className="text-white" />,
     bg: "bg-[#fe7f1b]",

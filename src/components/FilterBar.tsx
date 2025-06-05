@@ -151,10 +151,7 @@ const filterTextStyle = {
           )}
         </div>
 
-        {/* Separator */}
-        <div className="hidden sm:flex items-center">
-          <span className="text-neutral-300 text-lg select-none px-1">|</span>
-        </div>
+      
 
         {/* Units filter dropdown */}
         <div className="relative flex-shrink-0">
@@ -211,6 +208,11 @@ const filterTextStyle = {
             </Portal>
           )}
         </div>
+          {/* Separator */}
+        <div className="hidden sm:flex items-center">
+          <span className="text-neutral-300 text-lg select-none px-1">|</span>
+        </div>
+
 
         {/* Not Started filter */}
         <button
